@@ -1,5 +1,6 @@
 use bytes::Bytes;
 use pyo3::prelude::*;
+use pyo3::types::PyBytes;
 use rq_engine::command::wtlogin::{LoginResponse, QRCodeState};
 use rq_engine::Engine;
 use rq_engine::protocol::packet::Packet;
@@ -42,6 +43,14 @@ impl PyEngine {
 
     fn build_qrcode_fetch_request_packet(&self) -> PyPacket {
         self.inner.build_qrcode_fetch_request_packet().into()
+    }
+
+    fn build_heartbeat_packet(&self) -> PyPacket {
+        self.inner.build_heartbeat_packet().into()
+    }
+
+    fn build_client_register_packet(&self) -> PyPacket {
+        self.inner.build_client_register_packet().into()
     }
 
     fn decode_trans_emp_response(&mut self, payload: &[u8]) -> PyQRCodeState {
