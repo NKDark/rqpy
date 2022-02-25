@@ -154,6 +154,10 @@ impl PyEngine {
             LoginResponse::UnknownStatus(_) => Default::default(),
         }
     }
+
+    fn uni_packet(&self, command_name: &str, body: &[u8]) -> PyPacket {
+        self.inner.uni_packet(command_name, Bytes::from(body.to_vec())).into()
+    }
 }
 
 // 扫码登录

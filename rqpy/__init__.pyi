@@ -142,6 +142,8 @@ class Engine:
 
     def build_update_signature_packet(self, signature: str) -> Packet: ...
 
+    def uni_packet(self, command_name: str, body: bytes) -> Packet: ...
+
 
 class QRCodeState:
     @property
