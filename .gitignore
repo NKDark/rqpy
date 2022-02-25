@@ -70,3 +70,7 @@ docs/_build/
 
 # Pyenv
 .python-version
+
+qrcode.png
+device.json
+Cargo.lock

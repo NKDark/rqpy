@@ -3,7 +3,7 @@ use pyo3::prelude::*;
 use device::PyDevice;
 use packet::PyPacket;
 // use transport::PyTransport;
-use engine::PyEngine;
+use engine::*;
 
 pub mod device;
 pub mod transport;
@@ -25,5 +25,12 @@ fn rqpy(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<PyPacket>()?;
     // m.add_class::<PyTransport>()?;
     m.add_class::<PyEngine>()?;
+    m.add_class::<PyLoginResponse>()?;
+    m.add_class::<PyLoginSuccess>()?;
+    m.add_class::<PyAccountInfo>()?;
+    m.add_class::<PyQRCodeState>()?;
+    m.add_class::<PyQRCodeConfirmed>()?;
+    m.add_class::<PyQRCodeImageFetch>()?;
+
     Ok(())
 }

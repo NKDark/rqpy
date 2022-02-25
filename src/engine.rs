@@ -1,6 +1,5 @@
 use bytes::Bytes;
 use pyo3::prelude::*;
-use pyo3::types::PyBytes;
 use rq_engine::command::wtlogin::{LoginResponse, QRCodeState};
 use rq_engine::Engine;
 use rq_engine::protocol::packet::Packet;
@@ -27,7 +26,7 @@ impl PyEngine {
             _ => Protocol::IPad
         };
         Self {
-            inner: Engine::new(device.inner, get_version(protocol))
+            inner: Engine::new(device.into(), get_version(protocol))
         }
     }
 
@@ -102,7 +101,6 @@ impl PyEngine {
                     ..Default::default()
                 }
             }
-            _ => PyQRCodeState::default()
         }
     }
 
@@ -156,19 +154,24 @@ impl PyEngine {
 
 // 扫码登录
 // 假装是 enum
-#[pyclass]
+#[pyclass(name="QRCodeState")]
 #[derive(Default, Clone)]
 pub struct PyQRCodeState {
     #[pyo3(get, set)]
     pub image_fetch: Option<PyQRCodeImageFetch>,
+    #[pyo3(get, set)]
     pub confirmed: Option<PyQRCodeConfirmed>,
+    #[pyo3(get, set)]
     pub waiting_for_scan: Option<bool>,
+    #[pyo3(get, set)]
     pub waiting_for_confirm: Option<bool>,
+    #[pyo3(get, set)]
     pub timeout: Option<bool>,
+    #[pyo3(get, set)]
     pub canceled: Option<bool>,
 }
 
-#[pyclass]
+#[pyclass(name="QRCodeImageFetch")]
 #[derive(Default, Clone)]
 pub struct PyQRCodeImageFetch {
     #[pyo3(get, set)]
@@ -178,7 +181,7 @@ pub struct PyQRCodeImageFetch {
 }
 
 
-#[pyclass]
+#[pyclass(name="QRCodeConfirmed")]
 #[derive(Default, Clone)]
 pub struct PyQRCodeConfirmed {
     #[pyo3(get, set)]
@@ -193,7 +196,7 @@ pub struct PyQRCodeConfirmed {
 
 // 密码登录
 // 假装是 enum
-#[pyclass]
+#[pyclass(name="LoginResponse")]
 #[derive(Default, Clone)]
 pub struct PyLoginResponse {
     #[pyo3(get, set)]
@@ -206,16 +209,20 @@ pub struct PyLoginResponse {
     pub too_many_sms_request: Option<bool>,
 }
 
-#[pyclass]
+#[pyclass(name="LoginSuccess")]
 #[derive(Default, Clone)]
 pub struct PyLoginSuccess {
+    #[pyo3(get, set)]
     pub account_info: PyAccountInfo,
 }
 
-#[pyclass]
+#[pyclass(name="AccountInfo")]
 #[derive(Default, Clone)]
 pub struct PyAccountInfo {
+    #[pyo3(get, set)]
     pub nick: String,
+    #[pyo3(get, set)]
     pub age: u8,
+    #[pyo3(get, set)]
     pub gender: u8,
 }
