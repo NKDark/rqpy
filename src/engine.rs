@@ -52,6 +52,10 @@ impl PyEngine {
         self.inner.build_client_register_packet().into()
     }
 
+    fn build_update_signature_packet(&self, signature: &str) -> PyPacket {
+        self.inner.build_update_signature_packet(signature.to_string()).into()
+    }
+
     fn decode_trans_emp_response(&mut self, payload: &[u8]) -> PyQRCodeState {
         let resp = self.inner.decode_trans_emp_response(Bytes::from(payload.to_vec())).unwrap();
         match resp {
@@ -137,11 +141,11 @@ impl PyEngine {
                 device_lock_login: Some(true),
                 ..Default::default()
             },
-            LoginResponse::AccountFrozen =>PyLoginResponse {
+            LoginResponse::AccountFrozen => PyLoginResponse {
                 account_frozen: Some(true),
                 ..Default::default()
             },
-            LoginResponse::TooManySMSRequest =>PyLoginResponse {
+            LoginResponse::TooManySMSRequest => PyLoginResponse {
                 too_many_sms_request: Some(true),
                 ..Default::default()
             },
@@ -154,7 +158,7 @@ impl PyEngine {
 
 // 扫码登录
 // 假装是 enum
-#[pyclass(name="QRCodeState")]
+#[pyclass(name = "QRCodeState")]
 #[derive(Default, Clone)]
 pub struct PyQRCodeState {
     #[pyo3(get, set)]
@@ -171,7 +175,7 @@ pub struct PyQRCodeState {
     pub canceled: Option<bool>,
 }
 
-#[pyclass(name="QRCodeImageFetch")]
+#[pyclass(name = "QRCodeImageFetch")]
 #[derive(Default, Clone)]
 pub struct PyQRCodeImageFetch {
     #[pyo3(get, set)]
@@ -181,7 +185,7 @@ pub struct PyQRCodeImageFetch {
 }
 
 
-#[pyclass(name="QRCodeConfirmed")]
+#[pyclass(name = "QRCodeConfirmed")]
 #[derive(Default, Clone)]
 pub struct PyQRCodeConfirmed {
     #[pyo3(get, set)]
@@ -196,7 +200,7 @@ pub struct PyQRCodeConfirmed {
 
 // 密码登录
 // 假装是 enum
-#[pyclass(name="LoginResponse")]
+#[pyclass(name = "LoginResponse")]
 #[derive(Default, Clone)]
 pub struct PyLoginResponse {
     #[pyo3(get, set)]
@@ -209,14 +213,14 @@ pub struct PyLoginResponse {
     pub too_many_sms_request: Option<bool>,
 }
 
-#[pyclass(name="LoginSuccess")]
+#[pyclass(name = "LoginSuccess")]
 #[derive(Default, Clone)]
 pub struct PyLoginSuccess {
     #[pyo3(get, set)]
     pub account_info: PyAccountInfo,
 }
 
-#[pyclass(name="AccountInfo")]
+#[pyclass(name = "AccountInfo")]
 #[derive(Default, Clone)]
 pub struct PyAccountInfo {
     #[pyo3(get, set)]

@@ -82,6 +82,9 @@ def main():
         req = engine.build_client_register_packet()
         resp = send_and_wait(s, engine, req)
         print(resp)
+        req = engine.build_update_signature_packet("test signature")
+        resp = send_and_wait(s, engine, req)
+        print(resp)
 
 
 if __name__ == '__main__':

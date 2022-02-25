@@ -140,6 +140,8 @@ class Engine:
 
     def build_heartbeat_packet(self) -> Packet: ...
 
+    def build_update_signature_packet(self, signature: str) -> Packet: ...
+
 
 class QRCodeState:
     @property
